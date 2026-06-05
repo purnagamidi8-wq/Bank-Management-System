@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Bank Login</title>
+<script src="script.js"></script>
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg,#1a5e1b,#97e6e2);
+    margin:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.container{
+    text-align:center;
+}
+
+.box{
+    background:white;
+    padding:35px;
+    width:320px;
+    border-radius:12px;
+    box-shadow:0 8px 25px rgba(0,0,0,0.2);
+}
+
+h1{
+    color:white;
+    position:absolute;
+    top:30px;
+}
+
+.box h3{
+    color:#1a5e1b;
+    margin-bottom:20px;
+}
+
+input{
+    width:100%;
+    padding:10px;
+    margin:10px 0;
+    border-radius:6px;
+    border:1px solid #ccc;
+}
+
+button{
+    width:100%;
+    background:#1a5e1b;
+    color:white;
+    border:none;
+    padding:10px;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+.error{
+    color:red;
+}
+</style>
+
+<script>
+    function loginValidation(){
+    let userKey = document.getElementById("username").value; // This should be the Email used during registration
+    let pass = document.getElementById("password").value;
+    let message = document.getElementById("message");
+
+    let userData = localStorage.getItem(userKey);
+
+    if(!userData) {
+        message.innerHTML = "⚠ User not found. Please Register.";
+        return false;
+    }
+
+    let user = JSON.parse(userData);
+    if(user.password === pass) {
+        alert("Login Successful");
+        window.location.href = "index.html"; 
+    } else {
+        message.innerHTML = "⚠ Incorrect Password";
+    }
+    return false;
+}
+</script>
+
+</head>
+
+<body>
+
+<h1>WELCOME TO OUR PROJECT</h1>
+
+<div class="container">
+
+<div class="box">
+
+<h3>ENTER DETAILS TO LOGIN</h3>
+
+<form onsubmit="return loginValidation()">
+
+<input type="text" id="username" placeholder="Enter Username">
+<input type="password" id="password" placeholder="Enter Password">
+
+<div id="message" class="error"></div>
+
+<button type="submit">Login</button>
+
+</form>
+
+<p>Don't have an account? <a href="form1.html">Sign Up</a></p>
+
+</div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,235 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<title>Bank Account Registration</title>
+
+<style>
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    background: linear-gradient(135deg,#0f4c81,#4fa3ff);
+    margin:0;
+}
+
+.container{
+    width:750px;
+    background:white;
+    margin:40px auto;
+    padding:30px;
+    border-radius:12px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.3);
+}
+
+h1{
+    text-align:center;
+    color:#0f4c81;
+}
+
+form{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+}
+
+.full{
+    grid-column:1/3;
+}
+
+input, select, textarea{
+    width:100%;
+    padding:10px;
+    border-radius:6px;
+    border:1px solid #ccc;
+}
+
+button{
+    grid-column:1/3;
+    padding:12px;
+    background:#0f4c81;
+    color:white;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+}
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    document.getElementById("accountForm").addEventListener("submit", function(e){
+        e.preventDefault();
+
+        if(!validateForm()) return;
+
+        let account = {
+            firstname: document.getElementById("firstname").value,
+            lastname: document.getElementById("lastname").value,
+            dob: document.getElementById("dob").value,
+            gender: document.getElementById("gender").value,
+            mobile: document.getElementById("mobile").value,
+            email: document.getElementById("email").value,
+            aadhaar: document.getElementById("aadhaar").value,
+            pan: document.getElementById("pan").value,
+            address: document.getElementById("address").value,
+            balance: parseFloat(document.getElementById("deposit").value)
+        };
+
+        // Generate Account Number
+        let accNo = "ACC" + Date.now();
+        account.accNo = accNo;
+
+        // Save in localStorage
+        localStorage.setItem(accNo, JSON.stringify(account));
+
+        alert("✅ Account Created!\nAccount Number: " + accNo);
+
+        document.getElementById("accountForm").reset();
+    });
+
+});
+
+function validateForm() {
+
+    let fname = document.getElementById("firstname").value.trim();
+    let lname = document.getElementById("lastname").value.trim();
+    let mobile = document.getElementById("mobile").value.trim();
+    let email = document.getElementById("email").value.trim();
+    let aadhaar = document.getElementById("aadhaar").value.trim();
+    let pan = document.getElementById("pan").value.trim();
+    let deposit = parseFloat(document.getElementById("deposit").value);
+    let password = document.getElementById("password").value;
+    let confirmPassword = document.getElementById("confirmPassword").value;
+
+    let panPattern = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
+    let emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+
+    if(fname === "" || lname === ""){
+        alert("Enter full name");
+        return false;
+    }
+
+    if(mobile.length != 10 || isNaN(mobile)){
+        alert("Invalid mobile number");
+        return false;
+    }
+
+    if(!emailPattern.test(email)){
+        alert("Invalid email");
+        return false;
+    }
+
+    if(aadhaar.length != 12 || isNaN(aadhaar)){
+        alert("Invalid Aadhaar");
+        return false;
+    }
+
+    if(!panPattern.test(pan)){
+        alert("Invalid PAN");
+        return false;
+    }
+
+    if(deposit < 500){
+        alert("Minimum ₹500 required");
+        return false;
+    }
+
+    if(password.length < 6){
+        alert("Password too short");
+        return false;
+    }
+
+    if(password !== confirmPassword){
+        alert("Passwords do not match");
+        return false;
+    }
+
+    return true;
+}
+</script>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Bank Account Registration</h1>
+
+<form id="accountForm">
+
+<div>
+<label>First Name</label>
+<input type="text" id="firstname" required>
+</div>
+
+<div>
+<label>Last Name</label>
+<input type="text" id="lastname" required>
+</div>
+
+<div>
+<label>Date of Birth</label>
+<input type="date" id="dob" required>
+</div>
+
+<div>
+<label>Gender</label>
+<select id="gender" required>
+<option value="">Select</option>
+<option>Male</option>
+<option>Female</option>
+<option>Other</option>
+</select>
+</div>
+
+<div>
+<label>Mobile</label>
+<input type="text" id="mobile" required>
+</div>
+
+<div>
+<label>Email</label>
+<input type="email" id="email" required>
+</div>
+
+<div>
+<label>Aadhaar</label>
+<input type="text" id="aadhaar" required>
+</div>
+
+<div>
+<label>PAN</label>
+<input type="text" id="pan" required>
+</div>
+
+<div>
+<label>Initial Deposit</label>
+<input type="number" id="deposit" required>
+</div>
+
+<div class="full">
+<label>Address</label>
+<textarea id="address"></textarea>
+</div>
+
+<div class="full">
+<label>Password</label>
+<input type="password" id="password" required>
+</div>
+
+<div class="full">
+<label>Confirm Password</label>
+<input type="password" id="confirmPassword" required>
+</div>
+
+<button type="submit">Register Account</button>
+
+</form>
+
+</div>
+
+</body>
+</html>
+```
